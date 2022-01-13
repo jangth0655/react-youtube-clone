@@ -38,9 +38,13 @@ footer, header, hgroup, menu, nav, section {
 	box-sizing: border-box;
 }
 
+a { 
+	text-decoration: none;
+}
+
 body {
-	background-color: ${(props) => props.theme.colors.black.black};
-	height: 200vh;
+	background-color: ${(props) => props.theme.colors.black.darkgrey};
+	
 	line-height: 1.2;
 	font-family: 'Open Sans', sans-serif;
 }

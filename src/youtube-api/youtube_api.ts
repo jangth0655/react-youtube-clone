@@ -16,14 +16,15 @@ export interface IPopularVideo {
   };
 }
 
-interface IPopularVideoItems {
+export interface IPopularVideoItems {
   id: string;
-  channelId: string;
   snippet: {
+    channelId: string;
+    channelTitle: string;
     title: string;
     description: string;
     thumbnails: {
-      high: {
+      medium: {
         url: string;
         width: number;
         height: number;

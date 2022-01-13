@@ -1,14 +1,16 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { FormEvent, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Nav = styled.nav`
+  z-index: 99;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: fixed;
   width: 100%;
-  padding: 0.5em 0.8em;
+  padding: 0.5em 1em;
   background-color: ${(props) => props.theme.colors.black.dark};
   color: ${(props) => props.theme.colors.white.white};
   @media screen and (max-width: 30em) {
@@ -24,11 +26,8 @@ const Logo = styled.div`
 const LogoImg = styled(motion.svg)`
   cursor: pointer;
   width: 2.5em;
-  color: white;
+  color: red;
   margin-right: 1em;
-  &:hover {
-    color: red;
-  }
 `;
 
 const LogoName = styled.p`
@@ -52,15 +51,17 @@ const SearchInput = styled(motion.input)`
   outline: 0;
   margin-right: 0.5em;
   padding: 0.6em;
-  padding-left: 2.2em;
-  width: 15em;
+  padding-left: 2.7em;
+  width: 20em;
   background-color: transparent;
   border-radius: ${(props) => props.theme.borderRadius};
+  border: 1px solid ${(props) => props.theme.colors.white.dark};
   transform-origin: center right;
   color: ${(props) => props.theme.colors.white.dark};
   &::placeholder {
     color: ${(props) => props.theme.colors.white.dark};
     opacity: 0.5;
+    font-style: italic;
   }
 `;
 
@@ -69,7 +70,6 @@ const SearchIcon = styled(motion.svg)`
   cursor: pointer;
   width: 1em;
   right: 0;
-
   &:active {
     transform: scale(0.7);
   }
@@ -109,8 +109,6 @@ const Header = () => {
     setSearchInputValue(value);
   };
 
-  console.log(inputBigScale);
-
   return (
     <Nav>
       <Logo>
@@ -126,7 +124,9 @@ const Header = () => {
             d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
           ></path>
         </LogoImg>
-        <LogoName>Youtube</LogoName>
+        <Link to="/">
+          <LogoName>Youtube</LogoName>
+        </Link>
       </Logo>
       <AnimatePresence initial={false}>
         <SearchForm onSubmit={onSubmit}>
@@ -146,7 +146,7 @@ const Header = () => {
           <SearchIcon
             onClick={onInputSize}
             animate={{
-              x: inputBigScale ? -200 : 0,
+              x: inputBigScale ? -260 : 0,
             }}
             transition={{
               type: "tween",

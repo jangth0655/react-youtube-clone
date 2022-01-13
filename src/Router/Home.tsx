@@ -1,18 +1,21 @@
 import { useQuery } from "react-query";
 import styled from "styled-components";
+import VideoItem from "../components/VideoItem";
 import { getMostPopular, IPopularVideo } from "../youtube-api/youtube_api";
 
 const Main = styled.main`
   padding: 0 1em;
   padding-top: 5em;
-  height: 100vh;
 `;
 
-const VideoItems = styled.div`
-  gap: 0.5em;
+const VideoItems = styled.ul`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  gap: 1em;
+  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(auto, 1fr);
+  @media screen and (max-width: 40em) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const Home = () => {
@@ -21,9 +24,15 @@ const Home = () => {
     getMostPopular
   );
 
-  return (
+  return isLoading ? (
+    <span>Loading...</span>
+  ) : (
     <Main>
-      <VideoItems></VideoItems>
+      <VideoItems>
+        {data?.items.map((video) => (
+          <VideoItem key={video.id} {...video} />
+        ))}
+      </VideoItems>
     </Main>
   );
 };
