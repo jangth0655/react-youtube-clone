@@ -5,6 +5,8 @@ import App from "./App";
 import { theme } from "./theme";
 
 const GlobalStyle = createGlobalStyle`
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
+
   html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -30,8 +32,16 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+
+* {
+	box-sizing: border-box;
+}
+
 body {
-	line-height: 1;
+	background-color: ${(props) => props.theme.colors.black.black};
+	height: 200vh;
+	line-height: 1.2;
+	font-family: 'Open Sans', sans-serif;
 }
 ol, ul {
 	list-style: none;
