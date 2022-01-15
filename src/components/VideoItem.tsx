@@ -12,7 +12,7 @@ const ItemLi = styled.li`
   }
 `;
 
-const ItemImgBox = styled.div<{ bgPhoto: string }>`
+const ItemImgBox = styled.div<{ bgPhoto?: string }>`
   border-radius: ${(props) => props.theme.borderRadius};
   overflow: hidden;
   width: 100%;
@@ -38,15 +38,17 @@ const ItemTitle = styled.p`
 
 const VideoItem = ({ ...video }: IPopularVideoItems) => {
   const navigate = useNavigate();
-  const selectedVideo = (video: any) => {
+  const selectedVideo = (video: IPopularVideoItems) => {
     navigate(`/videos/${video.id}`);
   };
 
   return (
     <ItemLi onClick={() => selectedVideo(video)}>
-      <ItemImgBox bgPhoto={video.snippet.thumbnails.medium.url}></ItemImgBox>
+      <ItemImgBox
+        bgPhoto={video?.snippet?.thumbnails?.medium?.url}
+      ></ItemImgBox>
       <ItemInfo>
-        <ItemTitle>{video.snippet.title}</ItemTitle>
+        <ItemTitle>{video?.snippet?.title}</ItemTitle>
       </ItemInfo>
     </ItemLi>
   );

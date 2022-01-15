@@ -1,6 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+
+import { Link, useNavigate } from "react-router-dom";
+
 import styled from "styled-components";
 
 const Nav = styled.nav`
@@ -84,29 +87,22 @@ const logoVariants = {
   },
 };
 
+interface IForm {
+  keyword?: string;
+}
+
 const Header = () => {
+  const navigate = useNavigate();
   const [inputBigScale, setInputBigScale] = useState(false);
-  const [searchInputValue, setSearchInputValue] = useState("");
-  const [searchText, setSearchText] = useState("");
+  const { register, handleSubmit, setValue } = useForm();
 
   const onInputSize = () => {
     setInputBigScale((pre) => !pre);
   };
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (searchInputValue === "") {
-      return;
-    }
-    setSearchText(searchInputValue);
-    setSearchInputValue("");
-  };
-
-  const onChange = (event: FormEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = event;
-    setSearchInputValue(value);
+  const onValid = (data: IForm) => {
+    setValue("keyword", "");
+    navigate(`/search?keyword=${data.keyword}`);
   };
 
   return (
@@ -129,10 +125,10 @@ const Header = () => {
         </Link>
       </Logo>
       <AnimatePresence initial={false}>
-        <SearchForm onSubmit={onSubmit}>
+        <SearchForm onSubmit={handleSubmit(onValid)}>
           <SearchInput
-            onChange={onChange}
-            value={searchInputValue}
+            {...register("keyword", { required: true })}
+            placeholder="Search"
             animate={{
               scaleX: inputBigScale ? 1 : 0,
             }}
@@ -140,9 +136,7 @@ const Header = () => {
               type: "tween",
               duration: 0.5,
             }}
-            placeholder="Search"
           />
-
           <SearchIcon
             onClick={onInputSize}
             animate={{
