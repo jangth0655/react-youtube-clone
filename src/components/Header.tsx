@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -55,7 +55,7 @@ const SearchInput = styled(motion.input)`
   margin-right: 0.5em;
   padding: 0.6em;
   padding-left: 2.7em;
-  width: 20em;
+  width: 15em;
   background-color: transparent;
   border-radius: ${(props) => props.theme.borderRadius};
   border: 1px solid ${(props) => props.theme.colors.white.dark};
@@ -65,6 +65,10 @@ const SearchInput = styled(motion.input)`
     color: ${(props) => props.theme.colors.white.dark};
     opacity: 0.5;
     font-style: italic;
+  }
+  @media screen and (max-width: 40em) {
+    font-size: 0.8rem;
+    width: 10em;
   }
 `;
 
@@ -87,17 +91,32 @@ const logoVariants = {
   },
 };
 
+const searchIconVariants = {
+  scaleUp: (inputScale: boolean) => ({
+    x: inputScale ? 0 : -190,
+  }),
+  scaleDown: (inputScale: boolean) => ({
+    x: inputScale ? 0 : -130,
+  }),
+};
+
 interface IForm {
   keyword?: string;
 }
 
 const Header = () => {
   const navigate = useNavigate();
-  const [inputBigScale, setInputBigScale] = useState(false);
+  const [inputScale, setInputScale] = useState(false);
   const { register, handleSubmit, setValue } = useForm();
+  const inputAnimation = useAnimation();
 
   const onInputSize = () => {
-    setInputBigScale((pre) => !pre);
+    setInputScale((pre) => !pre);
+    if (window.innerWidth < 640) {
+      inputAnimation.start("scaleDown");
+    } else {
+      inputAnimation.start("scaleUp");
+    }
   };
 
   const onValid = (data: IForm) => {
@@ -124,13 +143,13 @@ const Header = () => {
           <LogoName>Youtube</LogoName>
         </Link>
       </Logo>
-      <AnimatePresence initial={false}>
+      <AnimatePresence initial={false} custom={inputScale}>
         <SearchForm onSubmit={handleSubmit(onValid)}>
           <SearchInput
             {...register("keyword", { required: true })}
             placeholder="Search"
             animate={{
-              scaleX: inputBigScale ? 1 : 0,
+              scaleX: inputScale ? 1 : 0,
             }}
             transition={{
               type: "tween",
@@ -138,10 +157,10 @@ const Header = () => {
             }}
           />
           <SearchIcon
+            variants={searchIconVariants}
+            custom={inputScale}
             onClick={onInputSize}
-            animate={{
-              x: inputBigScale ? -260 : 0,
-            }}
+            animate={inputAnimation}
             transition={{
               type: "tween",
               duration: 0.5,
