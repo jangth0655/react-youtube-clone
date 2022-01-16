@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { videoData } from "../atoms";
+import Loader from "../components/Loader";
 import VideoItem from "../components/VideoItem";
 import { getMostPopular, IPopularVideo } from "../youtube-api/youtube_api";
 
@@ -35,7 +36,7 @@ const Home = () => {
   }, [data?.items, setVideosArray]);
 
   return isLoading ? (
-    <span>Loading...</span>
+    <Loader></Loader>
   ) : (
     <Main>
       <VideoItems>

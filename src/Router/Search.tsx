@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { searchVideos } from "../atoms";
+import Loader from "../components/Loader";
 import { getSearch, IGetSearch } from "../youtube-api/youtube_api";
 
 const Main = styled.main`
@@ -76,7 +77,7 @@ const Search = () => {
   };
 
   return isLoading ? (
-    <span>Loading</span>
+    <Loader></Loader>
   ) : (
     <Main>
       <VideoItems>

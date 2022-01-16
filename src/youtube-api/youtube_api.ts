@@ -69,7 +69,7 @@ export interface IGetSearchItems {
 export const getSearch = async (query: any) => {
   const response = await (
     await fetch(
-      `${BASE_NAME}/search?part=snippet&maxResults=25&q=BTS&type=video&key=${process.env.REACT_APP_YOUTUBE_API_KEY}`
+      `${BASE_NAME}/search?part=snippet&maxResults=25&q=${query}&type=video&key=${process.env.REACT_APP_YOUTUBE_API_KEY}`
     )
   ).json();
   return response;
