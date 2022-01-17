@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faSadTear } from "@fortawesome/free-solid-svg-icons";
 import { faShare } from "@fortawesome/free-solid-svg-icons";
+import { useRef } from "react";
 
 const Main = styled.div`
   padding: 0 1em;
@@ -196,6 +197,7 @@ const Bar = styled.div`
 `;
 
 export const SearchVideoDetail = () => {
+  const videoRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const searchVideoMatch = useMatch("/search/:searchId");
   const searchVideosArray = useRecoilValue(searchVideos);
@@ -211,7 +213,7 @@ export const SearchVideoDetail = () => {
   return (
     <Main>
       <VideoWrap>
-        <VideoPlayBox>
+        <VideoPlayBox ref={videoRef}>
           <iframe
             width="100%"
             height="100%"
@@ -275,7 +277,10 @@ export const SearchVideoDetail = () => {
           {searchVideosArray?.map((item) => (
             <ListItem key={item.id.videoId}>
               <ItemImg
-                onClick={() => onVideo(item.id.videoId)}
+                onClick={() => {
+                  onVideo(item.id.videoId);
+                  videoRef.current?.scrollIntoView({ behavior: "smooth" });
+                }}
                 bgPoster={item.snippet.thumbnails.medium.url}
               ></ItemImg>
               <SmallSize>{item.snippet.title}</SmallSize>

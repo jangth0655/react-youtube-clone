@@ -8,7 +8,7 @@
 
 #### Feature
 
-- reatc-router를 활용하여 (popular video)Home page, Search page, detail page 구분
+- react-router를 활용하여 (popular video)Home page, Search page, detail page 구분
 - 검색 기능
 - 비디오 선택 시, 해당 detail page로 이동하고 해당 비디오 재생 및 소개
 

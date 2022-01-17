@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faSadTear } from "@fortawesome/free-solid-svg-icons";
 import { faShare } from "@fortawesome/free-solid-svg-icons";
+import React, { useRef } from "react";
 
 const Main = styled.div`
   padding: 0 1em;
@@ -195,6 +196,7 @@ const ItemImg = styled.div<{ bgPoster: string }>`
 `;
 
 const PopularVideoDetail = () => {
+  const videoRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const popularVideosArray = useRecoilValue(videoData);
   const popularVideoMatch = useMatch("/videos/:videoId");
@@ -210,7 +212,7 @@ const PopularVideoDetail = () => {
   return (
     <Main>
       <VideoWrap>
-        <VideoPlayBox>
+        <VideoPlayBox ref={videoRef}>
           <iframe
             width="100%"
             height="100%"
@@ -273,7 +275,10 @@ const PopularVideoDetail = () => {
         {popularVideosArray?.map((item) => (
           <ListItem key={item.id}>
             <ItemImg
-              onClick={() => onVideo(item.id)}
+              onClick={() => {
+                onVideo(item.id);
+                videoRef.current?.scrollIntoView({ behavior: "smooth" });
+              }}
               bgPoster={item.snippet.thumbnails.medium.url}
             ></ItemImg>
             <SmallSize>{item.snippet.title}</SmallSize>
