@@ -29,11 +29,11 @@ const VideoWrap = styled.div`
 
 const VideoPlayBox = styled.div`
   padding: 2em;
-  border-radius: ${(props) => props.theme.borderRadius};
-  overflow: hidden;
   width: 100%;
   max-width: 45em;
   height: 25.3em;
+
+  margin: auto;
 `;
 
 const VideoPlayInfo = styled.div`
@@ -164,8 +164,11 @@ const VideoList = styled.ul`
   display: grid;
   grid-template-rows: repeat(auto, 1fr);
   gap: 2em;
+  height: 100vh;
+  overflow-y: scroll;
   @media screen and (max-width: 40em) {
     margin-top: 3em;
+    overflow-y: unset;
   }
 `;
 const ListItem = styled.li`
